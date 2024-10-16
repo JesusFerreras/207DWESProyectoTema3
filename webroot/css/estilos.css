@@ -1,0 +1,45 @@
+* {
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+    box-sizing: border-box;
+    font-family: monospace;
+}
+
+header {
+}
+    h1, h2 {
+        width: fit-content;
+        margin: auto;
+    }
+
+table {
+    border-collapse: collapse;
+}
+    thead {
+        background-color: grey;
+    }
+        tr {
+            border: 1px solid black;
+        }
+        tbody tr:nth-child(2n) {
+            background-color: lightgrey;
+        }
+        tbody tr:nth-child(2n+1) {
+            background-color: darkgrey;
+        }
+            td:nth-child(1) {
+                border: 1px solid black;
+            }
+
+footer {
+    position: fixed;
+    bottom: 0;
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    border: 1px solid black;
+}
+    footer div {
+        width: fit-content;
+    }
