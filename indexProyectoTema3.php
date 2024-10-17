@@ -169,8 +169,8 @@
                     <tr>
                         <td>24</td>
                         <td>Construir y recoger un formulario con validación y recuperación de datos</td>
-                        <td><a href="codigoPHP/ejercicio24.php"></a></td>
-                        <td><a href="mostrarCodigo/mostrarEjercicio24.php"></a></td>
+                        <td><a href="codigoPHP/ejercicio24.php">&#x25B6;</a></td>
+                        <td><a href="mostrarCodigo/mostrarEjercicio24.php">&#x25C9;</a></td>
                     </tr>
                     <tr>
                         <td>25</td>

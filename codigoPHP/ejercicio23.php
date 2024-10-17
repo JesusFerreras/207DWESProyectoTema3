@@ -12,35 +12,47 @@
             /**
              * @author Jesus Ferreras
              * @since 2024/10/09
-             * @version 2024/10/16
+             * @version 2024/10/17
              */
                 //Indica si el formulario entero es valido
-                $bValido = true;
+                $entradaOK = true;
                 //Array donde se recogen los mensajes de error
-                $aErrores;
-                
-                print_r($_REQUEST);
+                $aErrores = [
+                    "campo1" => null,
+                    "campo2" => null
+                ];
+                //Array donde se recogen las respuestas con el formulario valido
+                $aRespuestas = [
+                    "campo1" => null,
+                    "campo2" => null
+                ];
                 
                 //Si se ha enviado un formulario antes
                 if (isset($_REQUEST["submit"])) {
                     //Se comprueba que los campos sean correctos, en caso contrario el formulario no es valido
                     if (strlen($_REQUEST["campo1"]) < 1 || strlen($_REQUEST["campo1"]) > 10) {
                         $aErrores["campo1"] = "Este campo debe contener entre 1 y 10 caracteres";
-                        $bValido = false;
+                        $entradaOK = false;
                     }
                     if (!preg_match('/^[a-z]+$/i', $_REQUEST["campo2"])) {
                         $aErrores["campo2"] = "Este campo solo debe contener letras";
-                        $bValido = false;
+                        $entradaOK = false;
                     }
                 } else {
-                    $bValido = false;
+                    $entradaOK = false;
                 }
                 
                 //Si el formulario es valido
-                if ($bValido) {
+                if ($entradaOK) {
+                    //Rellenar el array de respuestas
+                    foreach ($_REQUEST as $clave => $valor) {
+                        $aRespuestas[$clave] = $valor;
+                    }
+                    
                     //Mostrar los valores de los campos
-                    print("Campo1: ".$_REQUEST["campo1"]."<br>");
-                    print("Campo2: ".$_REQUEST["campo2"]);
+                    foreach ($aRespuestas as $clave => $valor) {
+                        print("$clave: $valor");
+                    }
                 } else {
                     //Mostrar de formulario
                     ?>       
