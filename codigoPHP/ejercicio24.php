@@ -2,6 +2,20 @@
 <html>
     <head>
         <title>Ejercicio24</title>
+        <style>
+            p.error {
+                color: red;
+            }
+
+            [readonly] {
+                background-color: lightgray;
+                color: gray;
+            }
+
+            [required] {
+                background-color: lemonchiffon;
+            }
+        </style>
     </head>
     <body>
         <header>
@@ -36,7 +50,7 @@
                     $aErrores["campo1"] = validacionFormularios::comprobarAlfaNumerico($_REQUEST["campo1"], 10, 1);
                     $aErrores["campo2"] = validacionFormularios::comprobarAlfabetico($_REQUEST["campo2"]);
                     
-                    //Se comprueba que los mensajes de error sean nulos, en caso contrario
+                    //Se comprueba que los mensajes de error sean nulos, en caso contrario el formulario no será valido y se borra la respuesta del campo erroneo
                     foreach ($aErrores as $clave => $valor) {
                         if (!empty($valor)) {
                             $entradaOK = false;
@@ -65,12 +79,12 @@
                         <div>
                             <label for="campo1">Campo1 (1-10 caracteres) :</label>
                             <input type="text" id="campo1" name="campo1" value="<?php print(!empty($_REQUEST["campo1"]) ? $_REQUEST["campo1"]:""); ?>">
-                            <p><?php print(!is_null($aErrores["campo1"]) ? $aErrores["campo1"]:""); ?></p>
+                            <p class="error"><?php print(!is_null($aErrores["campo1"]) ? $aErrores["campo1"]:""); ?></p>
                         </div>
                         <div>
                             <label for="campo2">Campo2 (Solo letras) :</label>
                             <input type="text" id="campo2" name="campo2" value="<?php print(!empty($_REQUEST["campo2"]) ? $_REQUEST["campo2"]:""); ?>">
-                            <p><?php print(!is_null($aErrores["campo2"]) ? $aErrores["campo2"]:""); ?></p>
+                            <p class="error"><?php print(!is_null($aErrores["campo2"]) ? $aErrores["campo2"]:""); ?></p>
                         </div>
                         <div>
                             <input type="submit" id="submit" name="submit">
