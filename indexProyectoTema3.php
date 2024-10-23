@@ -174,7 +174,7 @@
                     </tr>
                     <tr>
                         <td>25</td>
-                        <td>Utilizar PlantillaFormulario.php</td>
+                        <td>Plantilla de formularios</td>
                         <td><a href="codigoPHP/ejercicio25.php"></a></td>
                         <td><a href="mostrarCodigo/mostrarEjercicio25.php"></a></td>
                     </tr>
