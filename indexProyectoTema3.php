@@ -175,8 +175,8 @@
                     <tr>
                         <td>25</td>
                         <td>Plantilla de formularios</td>
-                        <td><a href="codigoPHP/ejercicio25.php"></a></td>
-                        <td><a href="mostrarCodigo/mostrarEjercicio25.php"></a></td>
+                        <td><a href="codigoPHP/ejercicio25.php">&#x25B6;</a></td>
+                        <td><a href="mostrarCodigo/mostrarEjercicio25.php">&#x25C9;</a></td>
                     </tr>
                 </tbody>
             </table>

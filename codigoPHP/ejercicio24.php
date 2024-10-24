@@ -3,16 +3,24 @@
     <head>
         <title>Ejercicio24</title>
         <style>
+            table {
+                table-layout: fixed;
+                width: 100%;
+            }
+                table * {
+                    margin: 0;
+                }
+            
             p.error {
                 color: red;
             }
 
             [readonly] {
                 background-color: lightgray;
-                color: gray;
+                color: #606060;
             }
 
-            [required] {
+            input.obligatorio {
                 background-color: lemonchiffon;
             }
         </style>
@@ -26,7 +34,7 @@
             /**
              * @author Jesus Ferreras
              * @since 2024/10/09
-             * @version 2024/10/17
+             * @version 2024/10/24
              */
             
             require_once '../core/231018libreriaValidacion.php';
@@ -35,26 +43,34 @@
                 $entradaOK = true;
                 //Array donde se recogen los mensajes de error
                 $aErrores = [
-                    "campo1" => null,
-                    "campo2" => null
+                    "texto" => null,
+                    "textoObligatorio" => null,
+                    "textoBloqueado" => null,
+                    "fecha" => null,
+                    "numero" => null
                 ];
                 //Array donde se recogen las respuestas con el formulario valido
                 $aRespuestas = [
-                    "campo1" => null,
-                    "campo2" => null
+                    "texto" => null,
+                    "textoObligatorio" => null,
+                    "textoBloqueado" => null,
+                    "fecha" => null,
+                    "numero" => null
                 ];
                 
                 //Si se ha enviado un formulario antes
                 if (isset($_REQUEST["submit"])) {
                     //Se rellena el array de errores con los mensajes de error
-                    $aErrores["campo1"] = validacionFormularios::comprobarAlfaNumerico($_REQUEST["campo1"], 10, 1);
-                    $aErrores["campo2"] = validacionFormularios::comprobarAlfabetico($_REQUEST["campo2"]);
+                    $aErrores["texto"] = validacionFormularios::comprobarAlfabetico($_REQUEST["texto"], 10, 1);
+                    $aErrores["textoObligatorio"] = validacionFormularios::comprobarAlfabetico($_REQUEST["textoObligatorio"],20 ,2 , 1);
+                    $aErrores["fecha"] = validacionFormularios::validarFecha($_REQUEST["fecha"], '01/01/2200', '01/01/1900');
+                    $aErrores["numero"] = validacionFormularios::comprobarEntero($_REQUEST["numero"], 50, 0);
                     
-                    //Se comprueba que los mensajes de error sean nulos, en caso contrario el formulario no será valido y se borra la respuesta del campo erroneo
+                    //Se comprueba que los mensajes de error sean nulos, en caso contrario el formulario no es valido y se borra la respuesta del campo erroneo
                     foreach ($aErrores as $clave => $valor) {
                         if (!empty($valor)) {
                             $entradaOK = false;
-                            $_REQUEST[$clave] = "";
+                            $_REQUEST[$clave] = '';
                         }
                     }
                 } else {
@@ -75,17 +91,54 @@
                 } else {
                     //Mostrar de formulario
                     ?>       
-                    <form action="<?php echo($_SERVER["PHP_SELF"]); ?>" method="post">
-                        <div>
-                            <label for="campo1">Campo1 (1-10 caracteres) :</label>
-                            <input type="text" id="campo1" name="campo1" value="<?php print(!empty($_REQUEST["campo1"]) ? $_REQUEST["campo1"]:""); ?>">
-                            <p class="error"><?php print(!is_null($aErrores["campo1"]) ? $aErrores["campo1"]:""); ?></p>
-                        </div>
-                        <div>
-                            <label for="campo2">Campo2 (Solo letras) :</label>
-                            <input type="text" id="campo2" name="campo2" value="<?php print(!empty($_REQUEST["campo2"]) ? $_REQUEST["campo2"]:""); ?>">
-                            <p class="error"><?php print(!is_null($aErrores["campo2"]) ? $aErrores["campo2"]:""); ?></p>
-                        </div>
+                    <form action="<?php echo($_SERVER["PHP_SELF"]); ?>" method="post" novalidate>
+                        <table>
+                            <tr>
+                                <td>
+                                    <label for="texto">Texto</label>
+                                    <input type="text" id="texto" name="texto" value="<?php print(!empty($_REQUEST["texto"]) ? $_REQUEST["texto"]:""); ?>">
+                                </td>
+                                <td>
+                                    <p class="error"><?php print(!is_null($aErrores["texto"]) ? $aErrores["texto"]:""); ?></p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="textoObligatorio">Texto Obligatorio</label>
+                                    <input class="obligatorio" type="text" id="textoObligatorio" name="textoObligatorio" value="<?php print(!empty($_REQUEST["textoObligatorio"]) ? $_REQUEST["textoObligatorio"]:""); ?>">
+                                </td>
+                                <td>
+                                    <p class="error"><?php print(!is_null($aErrores["textoObligatorio"]) ? $aErrores["textoObligatorio"]:""); ?></p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="textoBloqueado">Texto Bloqueado</label>
+                                    <input readonly type="text" id="textoBloqueado" name="textoBloqueado" value="Texto Bloqueado">
+                                </td>
+                                <td>
+                                    <p class="error"><?php print(!is_null($aErrores["textoBloqueado"]) ? $aErrores["textoBloqueado"]:""); ?></p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="fecha">Fecha</label>
+                                    <input type="date" name="fecha" id="fecha" value="<?php print(!empty($_REQUEST["fecha"]) ? $_REQUEST["fecha"]:""); ?>">
+                                </td>
+                                <td>
+                                    <p class="error"><?php print(!is_null($aErrores["fecha"]) ? $aErrores["fecha"]:""); ?></p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="numero">Numero</label>
+                                    <input type="number" name="numero" id="numero" value="<?php print(!empty($_REQUEST["numero"]) ? $_REQUEST["numero"]:""); ?>">
+                                </td>
+                                <td>
+                                    <p class="error"><?php print(!is_null($aErrores["numero"]) ? $aErrores["numero"]:""); ?></p>
+                                </td>
+                            </tr>
+                        </table>
                         <div>
                             <input type="submit" id="submit" name="submit">
                         </div>

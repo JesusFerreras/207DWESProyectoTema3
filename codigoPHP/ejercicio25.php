@@ -7,6 +7,9 @@
                 table-layout: fixed;
                 width: 100%;
             }
+                table * {
+                    margin: 0;
+                }
             
             p.error {
                 color: red;
@@ -14,12 +17,11 @@
 
             input[readonly] {
                 background-color: lightgray;
-                color: gray;
+                color: #606060;
             }
 
             input.obligatorio {
                 background-color: lemonchiffon;
-                
             }
         </style>
     </head>
@@ -32,7 +34,7 @@
             /**
              * @author Jesus Ferreras
              * @since 2024/10/22
-             * @version 2024/10/23
+             * @version 2024/10/24
              */
             
             require_once '../core/231018libreriaValidacion.php';
@@ -52,6 +54,7 @@
                     "textarea" => null,
                     "busqueda" => null,
                     "enlace" => null,
+                    "correo" => null,
                     "contrasenya" => null,
                     "numero" => null,
                     "fichero" => null,
@@ -72,10 +75,18 @@
                     "textarea" => null,
                     "busqueda" => null,
                     "enlace" => null,
+                    "correo" => null,
                     "contrasenya" => null,
                     "numero" => null,
                     "fichero" => null,
                     "color" => null
+                ];
+                
+                $aSeleccion = [
+                    "opc1" => "Opción 1",
+                    "opc2" => "Opción 2",
+                    "opc3" => "Opción 3",
+                    "opc4" => "Opción 4"
                 ];
                 
                 //Si se ha enviado un formulario antes
@@ -88,12 +99,13 @@
                     $aErrores["fecha"] = validacionFormularios::validarFecha($_REQUEST["fecha"], '01/01/2200', '01/01/1900');
                     $aErrores["hora"] = !empty($_REQUEST["hora"]) && !preg_match('/^([01][0-9] | 2[0-4]):[0-5][0-9]$/', $_REQUEST["hora"]) ? "La hora no cumple con el formato" : null;
                     $aErrores["textarea"] = validacionFormularios::comprobarAlfaNumerico($_REQUEST["textarea"]);
-                    $aErrores["busqueda"] = validacionFormularios::comprobarAlfaNumerico($_REQUEST["textarea"]);
+                    $aErrores["busqueda"] = validacionFormularios::comprobarAlfaNumerico($_REQUEST["busqueda"]);
                     $aErrores["enlace"] = validacionFormularios::validarURL($_REQUEST["enlace"]);
-                    $aErrores["contrasenya"] = validacionFormularios::validarPassword($_REQUEST["contrasenya"], 20, 5, 3);
-                    $aErrores["numero"] = validacionFormularios::comprobarEntero($_REQUEST["numero"], 50, 0, 1);
+                    $aErrores["correo"] = validacionFormularios::validarEmail($_REQUEST["correo"], 1);
+                    $aErrores["contrasenya"] = validacionFormularios::validarPassword($_REQUEST["contrasenya"], 20, 5, 3, 1);
+                    $aErrores["numero"] = validacionFormularios::comprobarFloat($_REQUEST["numero"], 50, 0, 1);
                     
-                    //Se comprueba que los mensajes de error sean nulos, en caso contrario el formulario no será valido y se borra la respuesta del campo erroneo
+                    //Se comprueba que los mensajes de error sean nulos, en caso contrario el formulario no es valido y se borra la respuesta del campo erroneo
                     foreach ($aErrores as $clave => $valor) {
                         if (!empty($valor)) {
                             $entradaOK = false;
@@ -120,11 +132,10 @@
                     ?>    
                     <form action="<?php echo($_SERVER['PHP_SELF']); ?>" method="post" novalidate>
                         <fieldset>
-                            <legend>Tipo text</legend>
+                            <legend>Text</legend>
                             <table>
                                 <tr>
                                     <td>
-                                        <label for="texto">Texto</label>
                                         <input class="obligatorio" type="text" id="texto" name="texto" value="<?php print(!empty($_REQUEST["texto"]) ? $_REQUEST["texto"]:""); ?>">
                                     </td>
                                     <td>
@@ -134,7 +145,7 @@
                             </table>
                         </fieldset>
                         <fieldset>
-                            <legend>Tipo radio</legend>
+                            <legend>Radio</legend>
                             <table>
                                 <tr>
                                     <td>
@@ -158,7 +169,7 @@
                             </table>
                         </fieldset>
                         <fieldset>
-                            <legend>Tipo checkbox</legend>
+                            <legend>Checkbox</legend>
                             <table>
                                 <tr>
                                     <td>
@@ -176,11 +187,10 @@
                             </table>
                         </fieldset>
                         <fieldset>
-                            <legend>Tipo tel</legend>
+                            <legend>Tel</legend>
                             <table>
                                 <tr>
                                     <td>
-                                        <label for="tlfno">Teléfono</label>
                                         <input type="tel" name="tlfno" id="tlfno" value="<?php print(!empty($_REQUEST["tlfno"]) ? $_REQUEST["tlfno"]:""); ?>">
                                     </td>
                                     <td>
@@ -190,7 +200,7 @@
                             </table>
                         </fieldset>
                         <fieldset>
-                            <legend>Tipo date</legend>
+                            <legend>Date</legend>
                             <table>
                                 <tr>
                                     <td>
@@ -203,7 +213,7 @@
                             </table>
                         </fieldset>
                         <fieldset>
-                            <legend>Tipo time</legend>
+                            <legend>Time</legend>
                             <table>
                                 <tr>
                                     <td>
@@ -216,7 +226,7 @@
                             </table>
                         </fieldset>
                         <fieldset>
-                            <legend>Tipo range</legend>
+                            <legend>Range</legend>
                             <table>
                                 <tr>
                                     <td>
@@ -237,10 +247,16 @@
                                     <td>
                                         <select name="seleccion" id="seleccion">
                                             <option value=""></option>
-                                            <option value="Opción 1">Opción 1</option>
-                                            <option value="Opción 2">Opción 2</option>
-                                            <option value="Opción 3">Opción 3</option>
-                                            <option value="Opción 4">Opción 4</option>
+                                            <?php
+                                                $i = 1;
+                                                foreach ($aSeleccion as $clave => $valor) {
+                                                    $selected = !empty($_REQUEST["vacaciones"]) && $_REQUEST["vacaciones"]=="$clave" ? "selected":"";
+                                                    print(<<<FIN
+                                                        <option value="$clave" $selected>$valor</option>
+                                                    FIN);
+                                                }
+                                                unset($i);
+                                            ?>
                                         </select>
                                     </td>
                                     <td>
@@ -254,7 +270,7 @@
                             <table>
                                 <tr>
                                     <td>
-                                        <textarea name="textarea" id="textarea" cols="30" rows="10" value="<?php print(!empty($_REQUEST["textarea"]) ? $_REQUEST["textarea"]:""); ?>"></textarea>
+                                        <textarea name="textarea" id="textarea"><?php print(!empty($_REQUEST["textarea"]) ? $_REQUEST["textarea"]:""); ?></textarea>
                                     </td>
                                     <td>
                                         <p class="error"><?php print(!is_null($aErrores["textarea"]) ? $aErrores["textarea"]:""); ?></p>
@@ -263,7 +279,7 @@
                             </table>
                         </fieldset>
                         <fieldset>
-                            <legend>Tipo search</legend>
+                            <legend>Search</legend>
                             <table>
                                 <tr>
                                     <td>
@@ -276,7 +292,7 @@
                             </table>
                         </fieldset>
                         <fieldset>
-                            <legend>Tipo url</legend>
+                            <legend>Url</legend>
                             <table>
                                 <tr>
                                     <td>
@@ -289,7 +305,20 @@
                             </table>
                         </fieldset>
                         <fieldset>
-                            <legend>Tipo password</legend>
+                            <legend>Email</legend>
+                            <table>
+                                <tr>
+                                    <td>
+                                        <input class="obligatorio" type="email" id="correo" name="correo" value="<?php print(!empty($_REQUEST["correo"]) ? $_REQUEST["correo"]:""); ?>">
+                                    </td>
+                                    <td>
+                                        <p class="error"><?php print(!is_null($aErrores["correo"]) ? $aErrores["correo"]:""); ?></p>
+                                    </td>
+                                </tr>
+                            </table>
+                        </fieldset>
+                        <fieldset>
+                            <legend>Password</legend>
                             <table>
                                 <tr>
                                     <td>
@@ -302,11 +331,11 @@
                             </table>
                         </fieldset>
                         <fieldset>
-                            <legend>Tipo number</legend>
+                            <legend>Number</legend>
                             <table>
                                 <tr>
                                     <td>
-                                        <input class="obligatorio" type="number" name="numero" id="numero" step="5" value="<?php print(!empty($_REQUEST["numero"]) ? $_REQUEST["numero"]:""); ?>">
+                                        <input class="obligatorio" type="number" name="numero" id="numero" value="<?php print(!empty($_REQUEST["numero"]) ? $_REQUEST["numero"]:""); ?>">
                                     </td>
                                     <td>
                                         <p class="error"><?php print(!is_null($aErrores["numero"]) ? $aErrores["numero"]:""); ?></p>
@@ -315,7 +344,7 @@
                             </table>
                         </fieldset>
                         <fieldset>
-                            <legend>Tipo file</legend>
+                            <legend>File</legend>
                             <table>
                                 <tr>
                                     <td>
@@ -328,7 +357,7 @@
                             </table>
                         </fieldset>
                         <fieldset>
-                            <legend>Tipo color</legend>
+                            <legend>Color</legend>
                             <table>
                                 <tr>
                                     <td>
