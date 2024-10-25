@@ -85,8 +85,8 @@
                     $aErrores["nacimiento"] = validacionFormularios::validarFecha($_REQUEST["nacimiento"], $oFechaActual->format('Y-m-d'));
                     $aErrores["estado"] = !isset($_REQUEST["estado"]) ? "Se debe escoger una opcion" : null;
                     $aErrores["numero"] = validacionFormularios::comprobarEntero($_REQUEST["numero"], 10, 0, 1);
-                    $aErrores["vacaciones"] = validacionFormularios::validarElementoEnLista($_REQUEST["vacaciones"], $aVacaciones);
-                    $aErrores["descripcion"] = validacionFormularios::comprobarAlfaNumerico($_REQUEST["descripcion"]);
+                    $aErrores["vacaciones"] = empty($_REQUEST["vacaciones"]) ? "Se debe escoger una opcion" : null;
+                    $aErrores["descripcion"] = validacionFormularios::comprobarAlfaNumerico($_REQUEST["descripcion"], 1000, 1, 1);
                     
                     //Se comprueba que los mensajes de error sean nulos, en caso contrario el formulario no es valido y se borra la respuesta del campo erroneo
                     foreach ($aErrores as $clave => $valor) {
@@ -145,7 +145,7 @@
                                             $seleccion = isset($_REQUEST["estado"]) && $_REQUEST["estado"]==$clave ? "checked":"";
                                             print(<<<FIN
                                                 <div>
-                                                    <input class="obligatorio" type="radio" id="rad$i" name="estado" value="$clave" $seleccion>
+                                                    <input class="obligatorio" type="radio" id="estado$i" name="estado" value="$clave" $seleccion>
                                                     <label for="rad$i">$valor</label>
                                                 </div>
                                             FIN);
@@ -195,6 +195,7 @@
                         <table>
                             <tr>
                                 <td>
+                                    <p>Describe brevemente tu estado de ánimo</p>
                                     <textarea class="obligatorio" name="descripcion" id="descripcion"><?php print(!empty($_REQUEST["descripcion"]) ? $_REQUEST["descripcion"]:""); ?></textarea>
                                 </td>
                                 <td>

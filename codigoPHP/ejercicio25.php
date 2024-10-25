@@ -20,7 +20,7 @@
                 color: #606060;
             }
 
-            input.obligatorio {
+            .obligatorio {
                 background-color: lemonchiffon;
             }
         </style>
@@ -82,6 +82,18 @@
                     "color" => null
                 ];
                 
+                $aRadio = [
+                    "1" => "Radio 1",
+                    "2" => "Radio 2",
+                    "3" => "Radio 3"
+                ];
+                
+                $aCheckbox = [
+                    "check1" => "Checkbox 1",
+                    "check2" => "Checkbox 2",
+                    "check3" => "Checkbox 3",
+                ];
+                
                 $aSeleccion = [
                     "opc1" => "Opción 1",
                     "opc2" => "Opción 2",
@@ -98,6 +110,7 @@
                     $aErrores["tlfno"] = validacionFormularios::validarTelefono($_REQUEST["tlfno"]);
                     $aErrores["fecha"] = validacionFormularios::validarFecha($_REQUEST["fecha"], '01/01/2200', '01/01/1900');
                     $aErrores["hora"] = !empty($_REQUEST["hora"]) && !preg_match('/^([01][0-9] | 2[0-4]):[0-5][0-9]$/', $_REQUEST["hora"]) ? "La hora no cumple con el formato" : null;
+                    $aErrores["seleccion"] = empty($_REQUEST["seleccion"]) ? "Se debe escoger una opcion" : null;
                     $aErrores["textarea"] = validacionFormularios::comprobarAlfaNumerico($_REQUEST["textarea"]);
                     $aErrores["busqueda"] = validacionFormularios::comprobarAlfaNumerico($_REQUEST["busqueda"]);
                     $aErrores["enlace"] = validacionFormularios::validarURL($_REQUEST["enlace"]);
@@ -149,18 +162,19 @@
                             <table>
                                 <tr>
                                     <td>
-                                        <div>
-                                            <input class="obligatorio" type="radio" id="rad1" name="rad" value="1" <?php print(isset($_REQUEST["rad"]) && $_REQUEST["rad"]==1 ? "checked":""); ?>>
-                                            <label for="rad1">Radio 1</label>
-                                        </div>
-                                        <div>
-                                            <input class="obligatorio" type="radio" id="rad2" name="rad" value="2" <?php print(isset($_REQUEST["rad"]) && $_REQUEST["rad"]==2 ? "checked":""); ?>>
-                                            <label for="rad2">Radio 2</label>
-                                        </div>
-                                        <div>
-                                            <input class="obligatorio" type="radio" id="rad3" name="rad" value="3" <?php print(isset($_REQUEST["rad"]) && $_REQUEST["rad"]==3 ? "checked":""); ?>>
-                                            <label for="rad3">Radio 3</label>
-                                        </div>
+                                        <?php
+                                            $i = 1;
+                                            foreach ($aRadio as $clave => $valor) {
+                                                $seleccion = isset($_REQUEST["rad"]) && $_REQUEST["rad"]==$clave ? "checked":"";
+                                                print(<<<FIN
+                                                    <div>
+                                                        <input class="obligatorio" type="radio" id="rad$i" name="rad" value="$clave" $seleccion>
+                                                        <label for="rad$i">$valor</label>
+                                                    </div>
+                                                FIN);
+                                            }
+                                            unset($i);
+                                        ?>
                                     </td>
                                     <td>
                                         <p class="error"><?php print(!is_null($aErrores["rad"]) ? $aErrores["rad"]:""); ?></p>
@@ -173,12 +187,15 @@
                             <table>
                                 <tr>
                                     <td>
-                                        <input class="obligatorio" type="checkbox" id="check1" name="check1" <?php print(isset($_REQUEST["check1"]) ? "checked":"") ?>>
-                                        <label for="check1">Checkbox 1</label>
-                                        <input class="obligatorio" type="checkbox" id="check2" name="check2" <?php print(isset($_REQUEST["check2"]) ? "checked":"") ?>>
-                                        <label for="check2">Checkbox 2</label>
-                                        <input class="obligatorio" type="checkbox" id="check3" name="check3" <?php print(isset($_REQUEST["check3"]) ? "checked":"") ?>>
-                                        <label for="check3">Checkbox 3</label>
+                                        <?php
+                                            foreach ($aCheckbox as $clave => $valor) {
+                                                $seleccion = isset($_REQUEST[$clave]) ? "checked":"";
+                                                print(<<<FIN
+                                                    <input class="obligatorio" type="checkbox" id="$clave" name="$clave" $seleccion>
+                                                    <label for="$clave">$valor</label>
+                                                FIN);
+                                            }
+                                        ?>
                                     </td>
                                     <td>
                                         <p class="error"><?php print(!is_null($aErrores["check"]) ? $aErrores["check"]:""); ?></p>
@@ -245,12 +262,12 @@
                             <table>
                                 <tr>
                                     <td>
-                                        <select name="seleccion" id="seleccion">
+                                        <select class="obligatorio" name="seleccion" id="seleccion">
                                             <option value=""></option>
                                             <?php
                                                 $i = 1;
                                                 foreach ($aSeleccion as $clave => $valor) {
-                                                    $selected = !empty($_REQUEST["vacaciones"]) && $_REQUEST["vacaciones"]=="$clave" ? "selected":"";
+                                                    $selected = !empty($_REQUEST["seleccion"]) && $_REQUEST["seleccion"]=="$clave" ? "selected":"";
                                                     print(<<<FIN
                                                         <option value="$clave" $selected>$valor</option>
                                                     FIN);

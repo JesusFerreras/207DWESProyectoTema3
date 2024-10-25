@@ -178,6 +178,12 @@
                         <td><a href="codigoPHP/ejercicio25.php">&#x25B6;</a></td>
                         <td><a href="mostrarCodigo/mostrarEjercicio25.php">&#x25C9;</a></td>
                     </tr>
+                    <tr>
+                        <td>27</td>
+                        <td>Utilización de la plantilla de formularios</td>
+                        <td><a href="codigoPHP/ejercicio27.php">&#x25B6;</a></td>
+                        <td><a href="mostrarCodigo/mostrarEjercicio27.php">&#x25C9;</a></td>
+                    </tr>
                 </tbody>
             </table>
         </div>
