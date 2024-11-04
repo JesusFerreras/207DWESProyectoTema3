@@ -34,7 +34,7 @@
             /**
              * @author Jesus Ferreras
              * @since 2024/10/22
-             * @version 2024/10/24
+             * @version 2024/10/25
              */
             
             require_once '../core/231018libreriaValidacion.php';
@@ -82,18 +82,21 @@
                     "color" => null
                 ];
                 
+                //Guarda las posibles respuestas para 'Radio'
                 $aRadio = [
                     "1" => "Radio 1",
                     "2" => "Radio 2",
                     "3" => "Radio 3"
                 ];
                 
+                //Guarda las posibles respuestas para 'Checkbox'
                 $aCheckbox = [
                     "check1" => "Checkbox 1",
                     "check2" => "Checkbox 2",
                     "check3" => "Checkbox 3",
                 ];
                 
+                //Guarda las posibles respuestas para 'Seleccion'
                 $aSeleccion = [
                     "opc1" => "Opción 1",
                     "opc2" => "Opción 2",
@@ -172,6 +175,7 @@
                                                         <label for="rad$i">$valor</label>
                                                     </div>
                                                 FIN);
+                                                $i++;
                                             }
                                             unset($i);
                                         ?>
@@ -265,14 +269,12 @@
                                         <select class="obligatorio" name="seleccion" id="seleccion">
                                             <option value=""></option>
                                             <?php
-                                                $i = 1;
                                                 foreach ($aSeleccion as $clave => $valor) {
                                                     $selected = !empty($_REQUEST["seleccion"]) && $_REQUEST["seleccion"]=="$clave" ? "selected":"";
                                                     print(<<<FIN
                                                         <option value="$clave" $selected>$valor</option>
                                                     FIN);
                                                 }
-                                                unset($i);
                                             ?>
                                         </select>
                                     </td>

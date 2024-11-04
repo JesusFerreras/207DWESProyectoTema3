@@ -60,8 +60,10 @@
                     "descripcion" => null
                 ];
                 
+                //Guarda la fecha actual
                 $oFechaActual = new DateTime("now");
                 
+                //Guarda las posibles respuestas para 'Estado'
                 $aEstado = [
                     "estado1" => "Muy mal",
                     "estado2" => "Mal",
@@ -70,6 +72,7 @@
                     "estado5" => "Muy bien",
                 ];
                 
+                //Guarda las posibles respuestas para 'Vacaciones'
                 $aVacaciones = [
                     "vacaciones1" => "Ni idea",
                     "vacaciones2" => "Con la familia",
@@ -149,6 +152,7 @@
                                                     <label for="rad$i">$valor</label>
                                                 </div>
                                             FIN);
+                                            $i++;
                                         }
                                         unset($i);
                                     ?>
@@ -176,14 +180,12 @@
                                     <select class="obligatorio" name="vacaciones" id="vacaciones">
                                         <option value=""></option>
                                         <?php
-                                            $i = 1;
                                             foreach ($aVacaciones as $clave => $valor) {
                                                 $seleccion = !empty($_REQUEST["vacaciones"]) && $_REQUEST["vacaciones"]=="$clave" ? "selected":"";
                                                 print(<<<FIN
                                                     <option value="$clave" $seleccion>$valor</option>
                                                 FIN);
                                             }
-                                            unset($i);
                                         ?>
                                     </select>
                                 </td>
