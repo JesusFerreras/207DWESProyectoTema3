@@ -8,17 +8,15 @@
             <h2>Construir y recoger un formulario con validación</h2>
         </header>
         <main>
-            <?php
-                highlight_file("../codigoPHP/ejercicio23.php");
-            ?>
+            <div id="codigo">
+                <?php
+                    highlight_file("../codigoPHP/ejercicio23.php");
+                ?>
+            </div>
         </main>
         <footer>
-            <div>
-                <a href="../../index.html">Jesús Ferreras González</a>
-            </div>
-            <div>
-                <a href="../indexProyectoTema3.php">Tema 3</a>
-            </div>
+            <a href="../../index.html">Jesús Ferreras González</a>
+            <a href="../indexProyectoTema3.php">Tema 3</a>
         </footer>
     </body>
 </html>

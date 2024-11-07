@@ -2,48 +2,171 @@
     --fondoClaro: #38444d;
     --fondoNeutro: #1d2a35;
     --fondoOscuro: #15202b;
+    --fondoNegro: #171921;
     --colorAcento: #04aa6d;
+    --colorAcentoOscuro: #059862;
     --colorLetra: #dddddd;
+    --alturaFooter: 5vh;
+    --rojo: #ffc0c7;
+    --amarillo: #fff4a3;
+    --morado: #f3ecea;
+    --gris: #d9eee1;
+    --azul: #96d4d4;
 }
 
-gy {
-  margin: 0px;
-  padding: 0px;
-  box-sizing: border-box;
-  font-style: normal;
-  text-decoration: none;
-  font-weight: normal;
+* {
+    margin: 0px;    
+    padding: 0px;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    color: var(--colorLetra);
+    text-align: left;
+}
+
+body {
+    min-height: 100vh;
+    background-color: var(--fondoNeutro);
+    position: relative;
+    border: 1px solid var(--fondoNeutro);
+}
+
+a:hover {
+    color: var(--colorAcento);
+}
+a:active {
+    color: var(--colorAcentoOscuro);
 }
 
 header {
-    
+    margin:32px 64px 16px;
+    border-bottom: 1px solid var(--fondoClaro);
 }
     h1 {
 
     }
-    
-table {
-    
-}
-    tbody {
+    header h2 {
 
     }
-        tbody tr {
+    header div {
+        display: flex;
+        justify-content: space-between;
+        margin: 16px 16px 8px;
+    }
+        header a {
+            font-weight: bold;
+            display: block;
+            padding: 8px 16px;
+            background-color: var(--colorAcento);
+            border-radius: 4px;
+            text-decoration: none;
+            color: var(--colorLetra);
+        }
+            header a:hover {
+                color: var(--colorLetra);
+                background-color: var(--colorAcentoOscuro);
+            }
+            header a[href=""] {
+                pointer-events: none;
+                background-color: var(--fondoNeutro);
+                border: 1px solid var(--colorLetra);
+            }
+    
+main {
+    margin: 8px 16px var(--alturaFooter);
+}
+    main>* {
+        width: 80%;
+        margin: auto;
+        margin-bottom: 64px;
+    }
+    table {
+        border: 1px solid var(--fondoClaro);
+        border-collapse: collapse;
+    }
+        tr {
 
         }
-            tbody th {
+            tr:nth-of-type(2n+1) {
+                background-color: var(--fondoClaro);
+            }
+            tr>:nth-of-type(1), tr>:nth-child(n+3) {
+                text-align: center;
+            }
+            tr>* {
+                padding: 4px;
+            }
+            th {
+                font-weight: bold;
+            }
+            th[rowspan="2"] {
+                background-color: var(--fondoNeutro);
+            }
+            td {
 
             }
-            tbody td {
 
+    div#temas {
+
+    }
+        div#temas h3 {
+            display: block;
+            margin: 16px 0 16px;
+            border-bottom: 1px solid var(--fondoClaro);
+        }
+        div#temas ul {
+            margin: 8px 16px;
+        }
+            div#temas li {
+                display: inline-block;
+                width: 20%;
+                margin: 0 16px;
+            }
+                div#temas a {
+                    font-weight: bold;
+                    display: block;
+                    padding: 8px 16px;
+                    background-color: var(--colorAcento);
+                    border-radius: 4px;
+                    text-decoration: none;
+                    color: var(--colorLetra);
+                }
+                    div#temas a:hover {
+                        color: var(--colorLetra);
+                        background-color: var(--colorAcentoOscuro);
+                    }
+                    div#temas a[href=""] {
+                        pointer-events: none;
+                        background-color: var(--fondoNeutro);
+                        border: 1px solid var(--colorLetra);
+                    }
+
+    div#codigo {
+        background-color: var(--fondoClaro);
+        border-radius: 4px;
+    }
+            div#codigo span {
+                font-family: 'Courier New', Courier, monospace;
+            }
+            div#codigo span[style="color: #000000"] {
+                color: var(--colorLetra);
             }
 
 footer {
-    
+    background-color: var(--fondoNegro);
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    position: absolute;
+    bottom: 0%;
+    height: var(--alturaFooter);
 }
-    footer div {
-
+    footer a {
+        display: block;
+        padding: 16px;
     }
-        footer a {
-
+        footer img {
+            height: 25px;
+            width: 25px;
         }
