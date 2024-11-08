@@ -1,6 +1,10 @@
 <!doctype html>
 <html>
     <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="author" content="Jesús Ferreras">
+        <link rel="stylesheet" href="../webroot/css/estilos.css">
         <title>Ejercicio23</title>
     </head>
     <body>
@@ -76,12 +80,8 @@
             ?>
         </main>
         <footer>
-            <div>
-                <a href="../../index.html">Jesús Ferreras González</a>
-            </div>
-            <div>
-                <a href="../indexProyectoTema3.php">Tema 3</a>
-            </div>
+            <a href="../../index.html">Jesús Ferreras González</a>
+            <a href="../indexProyectoTema3.php">Tema 3</a>
         </footer>
     </body>
 </html>
